@@ -4,73 +4,76 @@ import re
 from pathlib import Path
 import pandas as pd
 
-# Projektverzeichnis relativ zum Speicherort dieses Skripts bestimmen.
-# json_loader.py sollte vom Ordner src/ ausgefuehrt werden
-# daher zwei Verzeichnisebenen hoeher gehen.
-project_root = Path(__file__).resolve().parent.parent
+def load_soccer_comments():
 
-# Vom Stammverzeichnis aus alle JSON-Dateien im "Sportschau ordner" suchen.
-folder = project_root / "data" / "cleaned_data" / "Sportschau"
-files = sorted(list(folder.glob("*.json")))
+    # Projektverzeichnis relativ zum Speicherort dieses Skripts bestimmen.
+    # json_loader.py sollte vom Ordner src/ ausgefuehrt werden
+    # daher zwei Verzeichnisebenen hoeher gehen.
+    project_root = Path(__file__).resolve().parent.parent
 
-#print(len(files))
+    # Vom Stammverzeichnis aus alle JSON-Dateien im "Sportschau ordner" suchen.
+    folder = project_root / "data" / "cleaned_data" / "Sportschau"
+    files = sorted(list(folder.glob("*.json")))
 
-# Leere Liste fuer alle Kommentarsegmente.
-all_segments =  []
+    #print(len(files))
 
-# Jede JSON-Datei einlesen und Spielnamen und Halbzeit
-# aus dem Dateinamen bestimmen.
-for file in files:
+    # Leere Liste fuer alle Kommentarsegmente.
+    all_segments =  []
 
-    with open(file, "r", encoding="utf-8") as f:
+    # Jede JSON-Datei einlesen und Spielnamen und Halbzeit
+    # aus dem Dateinamen bestimmen.
+    for file in files:
 
-        segments = json.load(f)
+        with open(file, "r", encoding="utf-8") as f:
 
-        #print(f"Dateiname: {file.name}, Segmente: {len(segments)}")
+            segments = json.load(f)
 
-    match = re.fullmatch(
-        r"^\d+_([A-Z]{3}_[A-Z]{3})_(first|second)_half\.json$",
-        file.name)
+            #print(f"Dateiname: {file.name}, Segmente: {len(segments)}")
 
-    if match is not None:
+        match = re.fullmatch(
+            r"^\d+_([A-Z]{3}_[A-Z]{3})_(first|second)_half\.json$",
+            file.name)
 
-        game = match.group(1)
-        half = match.group(2)
+        if match is not None:
 
-        if half == "first":
-            half = 1
+            game = match.group(1)
+            half = match.group(2)
 
+            if half == "first":
+                half = 1
+
+            else:
+                half = 2
+
+        # Manuell eigene Fehlermeldung auslösen und Schleife abbrechen.    
         else:
-            half = 2
+            raise ValueError(f"Ungültiger Dateiname: {file.name}")
 
-    # Manuell eigene Fehlermeldung auslösen und Schleife abbrechen.    
-    else:
-        raise ValueError(f"Ungültiger Dateiname: {file.name}")
+        #print(f"game={game}, half={half}")
 
-    #print(f"game={game}, half={half}")
+        # Jedem Segment Spielname und Halbzeit zuordnen.
+        # Zeitangaben und Kommentartexte werden uebernommen.
+        for segment in segments:
+            
+            segment_info = {"match_id": game, 
+                            "half": half, 
+                            "start": segment["start"], 
+                            "end": segment["end"], 
+                            "text": segment["text"]}
 
-    # Jedem Segment Spielname und Halbzeit zuordnen.
-    # Zeitangaben und Kommentartexte werden uebernommen.
-    for segment in segments:
-        
-        segment_info = {"match_id": game, 
-                        "half": half, 
-                        "start": segment["start"], 
-                        "end": segment["end"], 
-                        "text": segment["text"]}
-
-        all_segments.append(segment_info)
+            all_segments.append(segment_info)
 
 
-df = pd.DataFrame(all_segments)
+    df = pd.DataFrame(all_segments)
 
-# Zeitlichen Mittelpunkl jedes Kommenats berechnen und
-# dem DataFrame als neue Spalte hinzufuegen.
-df["time_half_sec"] = (df["start"] + df["end"]) / 2
+    # Zeitlichen Mittelpunkl jedes Kommenats berechnen und
+    # dem DataFrame als neue Spalte hinzufuegen.
+    df["time_half_sec"] = (df["start"] + df["end"]) / 2
 
-print(df.shape)
 
-# print("Verarbeitet:", len(all_segments))
-# print("Erstes Segment:", all_segments[0])
-# print("Letztes Segment:", all_segments[-1])
+    # print("Verarbeitet:", len(all_segments))
+    # print("Erstes Segment:", all_segments[0])
+    # print("Letztes Segment:", all_segments[-1])
+
+    return df
 
