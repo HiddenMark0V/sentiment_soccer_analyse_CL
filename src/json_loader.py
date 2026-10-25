@@ -45,7 +45,7 @@ def load_soccer_comments():
             else:
                 half = 2
 
-        # Manuell eigene Fehlermeldung auslösen und Schleife abbrechen.    
+        # Manuell eigene Fehlermeldung ausloesen und Schleife abbrechen.    
         else:
             raise ValueError(f"Ungültiger Dateiname: {file.name}")
 
