@@ -76,4 +76,3 @@ def load_soccer_comments():
     # print("Letztes Segment:", all_segments[-1])
 
     return df
-

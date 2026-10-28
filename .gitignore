@@ -13,3 +13,7 @@ data/cleaned_data/
 tests/sandbox.ipynb
 
 docs/quellen.md
+
+tests/plots_sandbox.py
+
+sandbox/
