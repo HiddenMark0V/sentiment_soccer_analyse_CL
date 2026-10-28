@@ -10,14 +10,14 @@ df = pd.read_csv(project_root/ "outputs" / "sentiment_comments.csv")
 # goals = Reale Tore als Referenzwert fuer die Analyse.
 goals = pd.read_csv(project_root / "data" / "metadata" / "goals.csv")
 
-# splits = Zuordnungsuebersicht der aufgeteilten Spiele in TRAIN/TEST.
-splits = pd.read_csv(project_root / "data" / "metadata" / "game_split.csv")
+# # splits = Zuordnungsuebersicht der aufgeteilten Spiele in TRAIN/TEST.
+# splits = pd.read_csv(project_root / "data" / "metadata" / "game_split.csv")
 
-# Aus den 39 verfuegbaren Spielen nur die 20 von TRAIN verwenden und als Menge speichern.
-train_ids = set(splits.loc[splits["split"] == "train", "match_id"])
+# # Aus den 39 verfuegbaren Spielen nur die 20 von TRAIN verwenden und als Menge speichern.
+# train_ids = set(splits.loc[splits["split"] == "train", "match_id"])
 
-# Filtern nach den dazugehoerigen Toren und speichern.
-train_goals = goals[goals["match_id"].isin(train_ids)]
+# # Filtern nach den dazugehoerigen Toren und speichern.
+# train_goals = goals[goals["match_id"].isin(train_ids)]
 
 
 
@@ -26,7 +26,7 @@ train_goals = goals[goals["match_id"].isin(train_ids)]
 results = []
 
 # Iteratiion mit goals durch jede Zeile.
-for i, goal in train_goals.iterrows():
+for i, goal in goals.iterrows():
 
     # Filtern der dazugehoerigen Kommentare.
     # Gleiches Spiel + gleiche Halbzeit.
@@ -68,11 +68,16 @@ for i, goal in train_goals.iterrows():
 df_goalwindows = pd.DataFrame(results)
 
 
-# Kontrollausgaben:
-print("Tore in den TRAIN-Spielen:", len(train_goals))
-print("Tore fuer die Analyse:", len(df_goalwindows))
+# Kontrollausgaben.
+print("Analysierte Spiele:", goals["match_id"].nunique())
+print("Torreferenzen insgesamt:", len(goals))
+print("Auswertbare Tore:", len(df_goalwindows))
+print("Uebersprungene Tore:", len(goals) - len(df_goalwindows))
 print(df_goalwindows["diff"].describe())
 print(df_goalwindows.head(10))
+print("Positive Aenderungen:", (df_goalwindows["diff"] > 0).sum())
+print("Negative Aenderungen:", (df_goalwindows["diff"] < 0).sum())
+print("Median absoluter Aenderungen:", df_goalwindows["diff"].abs().median())
 
 # Ergebnisse als CSV unter outputs/ speichern.
-df_goalwindows.to_csv(project_root / "outputs" / "TRAIN_goal_windows.csv", index=False)
+df_goalwindows.to_csv(project_root / "outputs" / "goal_windows.csv", index=False)
