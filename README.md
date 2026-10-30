@@ -25,22 +25,23 @@ sentiment_soccer_analyse_CL/
 │   ├── metadata/    
 │   │   ├── euro2024_gamescores_raw.json
 │   │   └── goals.csv
-│   └── raw_data    
-│      
+│   └── raw_data          
 ├── docs/         
 │   ├── ACL_paper.pdf       
-│   ├── quellen.md      
-│   └── KI_dokumentation.md 
+│   ├── code_quellen.md      
+│   └── KI_dokumentation.pdf 
 ├── outputs/    
 │   ├── goal_windows.csv     
-│   └── sentiment_comments.csv    
-└── src/       
-    ├── analyze_goalwindow.py    
-    ├── create_goals_references.py    
-    ├── json_loader.py   
-    └── run_sentiment_classifier.py    
-       
-       
+│   ├── sentiment_comments.csv
+│   └── plot_sentiment_torereignisse.png    
+├── src/       
+│   ├── analyze_goalwindow.py    
+│   ├── create_goals_references.py    
+│   ├── json_loader.py   
+│   └── run_sentiment_classifier.py    
+└── test/
+    ├── plots.py   
+    └── t_test.py   
 
 ```
 ### Anmerkungen
@@ -49,6 +50,7 @@ sentiment_soccer_analyse_CL/
 - Unter ```docs/```: relevante Dokumente zu diese Projekt; unteranderem auch das CL-Paper.
 - Unter ```outputs/```: Sentimentergebnisse und Berechnungen der Sentimentveränderungen im zeitlichen Umfeld von Toren.
 - Unter ```src/```: Die Python Skripte.
+- Unter ```test/```: t-Test und Ploterstellung.
 
 ## Voraussetzungen und Installation
 
@@ -66,6 +68,8 @@ transformers == 4.57.6
 torch == 2.14.1
 
 matplotlib == 3.11.2
+
+scipy == 1.17.1
 ```
 ### Installieren der Bibliotheken
 
@@ -94,7 +98,7 @@ data/
 Falls die Analyse ebenfalls durchgeführt werden soll, dann kann die folgende Reihenfolge beachtet werden.
 Die erstellten Outputs, die bei der Analyse entstanden sind, werden unter ```data/metadata/``` und ```outputs/``` in diesem Git-Repo mit gepusht und zur Verfügung gestellt. Das sollte beachtet werden, wenn durch das Ausführen der Skripte Outputs erstellt werden.
   
-1. Erstellung der Torreferenzen: ```create_goals_references.py```
+### 1. Erstellung der Torreferenzen: ```create_goals_references.py```
 ```
 .\.venv\Scripts\python.exe -m src.create_goals_references
   ```
@@ -102,7 +106,7 @@ Output: Erstellt ```data/metadata/goals.csv``` mit 85 Torreferenzen.
 
 
 
-2. Sentimentklassifikation: ```run_sentiment_classifier.py```
+### 2. Sentimentklassifikation: ```run_sentiment_classifier.py```
 ```
 .\.venv\Scripts\python.exe -m src.run_sentiment_classifier
 ```
@@ -117,7 +121,7 @@ Output:  Erstellt ```outputs/sentiments_comments.csv```. Die Datei enthält 32.6
 
 
 
-3. Analyse der Sentimentveränderungen: ```analyze_goalwindow.py```
+### 3. Analyse der Sentimentveränderungen: ```analyze_goalwindow.py```
 ```
 .\.venv\Scripts\python.exe -m src.analyze_goalwindow
 ```
@@ -130,3 +134,5 @@ Es werden von den 39 Spielen und den 85 Toren, 83 Tore ausgewertet (2 Tore wurde
 ## Quellen
 - SocCor: A Multimodal-based Multilingual Soccer Corpus for Text Data Analytics (2025). Löhr, Paul & Strötgen, Jannik. Korpus: https://github.com/PaulLoehr/SocCor/tree/main. Paper: https://aclanthology.org/2025.konvens-1.8.pdf.
 - Broad-Coverage German Sentiment Classification Model for Dialog Systems (2020). Guhr, Oliver  and  Schumann, Anne-Kathrin  and  Bahrmann, Frank  and  Böhme, Hans Joachim. Modell: https://github.com/oliverguhr/german-sentiment. Paper: https://aclanthology.org/2020.lrec-1.202.pdf.
+- Siehe auch ```code_quellen.md```
+- Siehe auch ```KI_dokumentation.pdf```
