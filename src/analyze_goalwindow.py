@@ -10,17 +10,6 @@ df = pd.read_csv(project_root/ "outputs" / "sentiment_comments.csv")
 # goals = Reale Tore als Referenzwert fuer die Analyse.
 goals = pd.read_csv(project_root / "data" / "metadata" / "goals.csv")
 
-# # splits = Zuordnungsuebersicht der aufgeteilten Spiele in TRAIN/TEST.
-# splits = pd.read_csv(project_root / "data" / "metadata" / "game_split.csv")
-
-# # Aus den 39 verfuegbaren Spielen nur die 20 von TRAIN verwenden und als Menge speichern.
-# train_ids = set(splits.loc[splits["split"] == "train", "match_id"])
-
-# # Filtern nach den dazugehoerigen Toren und speichern.
-# train_goals = goals[goals["match_id"].isin(train_ids)]
-
-
-
 # For-Schleife durch jedes Tor:
 
 results = []

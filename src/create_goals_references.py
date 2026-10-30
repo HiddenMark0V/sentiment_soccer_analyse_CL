@@ -124,7 +124,7 @@ print("Zugeordnet:", len(matched_ids))
 print("Erfasste tore:", len(df_goals))
 
 if len(matched_ids) != 39 or len(df_goals) != 85:
-    raise ValueError("Anzahl stimmt nicht")
+    raise ValueError("Anzahl stimmt nicht!")
 
 
 # Tore als CSV speichern

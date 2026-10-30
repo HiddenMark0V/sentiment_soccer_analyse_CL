@@ -7,6 +7,7 @@ from src.json_loader import load_soccer_comments
 # Alle Kommentare als df einlesen.
 df = load_soccer_comments()
 
+# [Q_5]
 # Laden des German Sentimentmodels.
 model = SentimentModel()
 
