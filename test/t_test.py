@@ -1,4 +1,5 @@
 # [Q_4]
+# Folgender Code wurde leicht verändert von [Q_4] so uebernommen.
 
 from pathlib import Path
 import pandas as pd
