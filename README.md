@@ -10,6 +10,8 @@ Untersuchung von Sentimentveränderungen in Fußball Livekommentaren im zeitlich
 ## Datengrundlage
 - Hauptdatensatz: **SocCor: A Multimodal-based Multilingual Soccer Corpus for Text Data Analytics** (https://github.com/PaulLoehr/SocCor)
   - Notwendig: Die transkribierten deutschen Sportschau-Kommentare unter cleaned_data: ![SocCor/Textdata/cleaned_data/Games/Sportschau](https://github.com/PaulLoehr/SocCor/tree/main/SocCor/Textdata/cleaned_data/Games/Sportschau)
+  - Diesen Daten müssen heruntergeladen und im Projektverzeichnis im selbsterstellen Ordner ```data/cleaned_data/Sportschau/``` abgelegt werden (siehe dafür die untere Projektstruktur).
+  - Bei Bedarf und Interesse kann man sich hier auch die Rohdateien herunterladen: (https://github.com/PaulLoehr/SocCor/tree/main/SocCor/Textdata/raw_data/Games/Sportschau) - Dies ist für dieses Projekt und die Durchführung jedoch nicht notwendig.
 
 - Referenzdatensatz für die Spielergebnisse: **Free open public domain football data in the JSON format** (https://github.com/openfootball/euro.json/tree/master?tab=readme-ov-file)
   - Notwendig: Die Spiele von der EM 2027: ![2024/euro.json](https://github.com/openfootball/euro.json/blob/master/2024/euro.json)
